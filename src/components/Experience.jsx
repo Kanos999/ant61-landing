@@ -6,28 +6,23 @@ import { OrbitControls, ScrollControls } from '@react-three/drei';
 
 
 import { BeaconModel } from './BeaconModel'
+import { Overlay } from './Overlay';
 
 
 export const Experience = () => {
   return (
     <>
-      <spotLight
-        position={[3,3,3]}
+     <pointLight
+        position={[2,4,2]}
         angle={0.9}
         penumbra={1}
-        intensity={30}
+        intensity={20}
       />
-      <spotLight
-        position={[-4, -4, -4]}
-        angle={0.8}
-        penumbra={2}
-        intensity={10}
-      />
-      {/* <pointLight intensity={5} position={[2, 1, 3]} /> */}
-      <ambientLight intensity={0.15} />
-      <OrbitControls enableZoom={false} />
+      <pointLight intensity={10} position={[-4, -1, -3]} />
+      <ambientLight intensity={0.4} />
       <ScrollControls pages={2} damping={0.25}>
         {/* <Beacon scale={[0.4,0.4,0.4]} /> */}
+        <Overlay />
         <BeaconModel scale={[0.4,0.4,0.4]} />
       </ScrollControls>
     </>

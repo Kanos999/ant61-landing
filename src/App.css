@@ -1,5 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Geologica:wght@100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
 #root {
   width: 100vw;
   height: 100vh;
-  background-color: rgb(8, 8, 16);
+  background: rgb(4,4,10);
+  background: linear-gradient(90deg, rgba(4,4,10,1) 0%, rgba(18,19,28,1) 50%, rgba(4,4,10,1) 100%);
+}
+
+
+html, body, label {
+  font-family: "Roboto Condensed", sans-serif;
 }

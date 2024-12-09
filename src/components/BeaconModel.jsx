@@ -17,7 +17,8 @@ const BeaconModel = (props) => {
   const { nodes, materials } = useGLTF('./models/beacon.glb')
   const ref = useRef();
   const batteriesRef = useRef();
-  const chipsRef = useRef();
+  const chipsRef1 = useRef();
+  const chipsRef2 = useRef();
   const pcbRef = useRef();
   const tl = useRef();
   const scroll = useScroll();
@@ -30,28 +31,44 @@ const BeaconModel = (props) => {
   texture.wrapT = THREE.RepeatWrapping;
   
   const anodisedMaterial = new THREE.MeshStandardMaterial({
-    color: 0xe67e22,
-
+    color: 0xff861b,//0xec984e, 
     roughness: 0.4,
     metalness: 1,
-
     roughnessMap: texture,
     metalnessMap: texture,
+    envMap: texture, // important -- especially for metals!
+    opacity: enclosureOpacity,
+    transparent: true,
+    envMapIntensity: 1
+  })
 
+  const insulatorMaterial = new THREE.MeshStandardMaterial({
+    color: 0x666666,
+    roughness: 0.6,
+    metalness: 0.1,
+    // roughnessMap: texture,
+    // metalnessMap: texture,
     envMap: texture, // important -- especially for metals!
     envMapIntensity: 1
+  })
+
+  const batteryMaterial = new THREE.MeshStandardMaterial({
+    color: 0x049ef4,
+    roughness: 0.1,
+    metalness: 0.2,
   })
 
   useFrame(() => {
     tl.current.seek(scroll.offset * tl.current.duration());
     
-    setEnclosureOpacity(1 - scroll.range(0, 1/3));
+    setEnclosureOpacity(1 - 0.8 * scroll.range(0, 1/3));
+    insulatorMaterial.opacity = 1 - scroll.range(0, 1/3)
   })
 
   useLayoutEffect(() => {
     tl.current = gsap.timeline();
 
-    // vertical animation
+    // Rotation animation
     tl.current.to(
       ref.current.rotation,
       {
@@ -67,9 +84,9 @@ const BeaconModel = (props) => {
       ref.current.scale,
       {
         duration: 1.5,
-        x: 0.5,
-        y: 0.5,
-        z: 0.5
+        x: 0.8,
+        y: 0.8,
+        z: 0.8
       },
       0
     );
@@ -78,8 +95,8 @@ const BeaconModel = (props) => {
       ref.current.position,
       {
         duration: 1.5,
-        x: -4,
-        y: 0,
+        x: -6,
+        y: -1.5,
         z: 0
       },
       0
@@ -90,28 +107,39 @@ const BeaconModel = (props) => {
       batteriesRef.current.position,
       {
         duration: 1,
-        y: 1,
-        z: -4
+        y: 2,
+        z: 4
       },
-      0.5
+      0.6
     );
 
     tl.current.to(
       pcbRef.current.position,
       {
         duration: 1,
-        y: 4
+        y: 4,
+        z: -2
       },
       0.5
     );
 
     tl.current.to(
-      chipsRef.current.position,
+      chipsRef1.current.position,
+      {
+        duration: 1,
+        y: 8,
+        x: -2,
+        z: -2
+      },
+      0.3
+    );
+    tl.current.to(
+      chipsRef2.current.position,
       {
         duration: 1,
         y: 8
       },
-      0.5
+      0.4
     );
   }, []);
 
@@ -122,14 +150,14 @@ const BeaconModel = (props) => {
       <group rotation={[Math.PI / 2, Math.PI, 0]} scale={[1,1,1]} ref={ref}>
         
         {/* Enclosure */}
-        <group >
-          <mesh opacity={enclosureOpacity} transparent geometry={nodes.beacon001.geometry} material={anodisedMaterial} />
+        <group>
+          <mesh geometry={nodes.beacon001.geometry} material={anodisedMaterial} />
         </group>
 
         {/* Batteries */}
         <group position={[0,0,0]}>
           <group ref={batteriesRef}>
-            <mesh geometry={nodes.beacon001_1.geometry} material={materials['Aluminum_-_Satin.001']} />
+            <mesh geometry={nodes.beacon001_1.geometry} material={batteryMaterial} />
           </group>
         </group>
 
@@ -137,8 +165,12 @@ const BeaconModel = (props) => {
 
         {/* chip (yet to identify) */}
         <group position={[0,0,0]}>
-          <group ref={chipsRef}>
+          <group ref={chipsRef1}>
             <mesh geometry={nodes.beacon001_24.geometry} material={materials['Opaque(144,144,144).001']} />
+          </group>
+        </group>
+        <group position={[0,0,0]}>
+          <group ref={chipsRef2}>
             <mesh geometry={nodes.beacon001_8.geometry} material={materials['Opaque(128,128,128).001']} />
           </group>
         </group>
@@ -166,7 +198,7 @@ const BeaconModel = (props) => {
             <mesh geometry={nodes.beacon001_23.geometry} material={materials['Opaque(0,64,0).001']} />
             
             {/* 104 connector */}
-            <mesh geometry={nodes.beacon001_2.geometry} material={materials['Opaque(176,176,176).001']} />
+            <mesh geometry={nodes.beacon001_2.geometry} material={insulatorMaterial} />
             
             <mesh geometry={nodes.beacon001_3.geometry} material={materials['Opaque(255,255,0).001']} />
             <mesh geometry={nodes.beacon001_4.geometry} material={materials['Opaque(0,128,0).001']} />
