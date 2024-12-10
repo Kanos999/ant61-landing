@@ -5,15 +5,22 @@ import { useState, useRef, useLayoutEffect } from 'react';
 
 export const Overlay = () => {
   const scroll = useScroll();
-  const [opacity, setOpacity] = useState(1);
+  const [introOpacity, setIntroOpacity] = useState(1);
+  const [fabOpacity, setFabOpacity] = useState(1);
 
   useFrame(() => {
-    setOpacity(scroll.range(2/3, 1/3));
+    setIntroOpacity(1 - scroll.range(0, 1/3));
+    setFabOpacity(scroll.range(2/3, 1/3));
   }, []);
 
   return (
     <Scroll html>
-      <div className="z-30 mt-[100vh] w-[100vw] h-[100vh]" style={{opacity: opacity}}>
+      <div className="leading-none z-30 w-[100vw] h-[100vh] flex flex-row justify-between items-center font-roboto" style={{opacity: introOpacity}}>
+        <div className="w-1/3 text-[68pt] font-bold text-white text-center p-24">Introducing: <p className="text-[110pt]">Beacon</p></div>
+        <div className="w-1/3 text-[68pt] font-bold text-white text-center p-24">Because 12% of satellites never turn on in orbit</div>
+      </div>
+
+      <div className="z-30 w-[100vw] h-[100vh]" style={{opacity: fabOpacity}}>
         <div className="p-12 pl-36 text-gray-100 font-bold ml-auto w-1/2 h-full flex flex-col">
           <div className="ml-auto mr-auto p-4 m-8 border border-[#252634]/60 rounded-xl text-[18pt] font-bold">
             Real-time 2-way communication

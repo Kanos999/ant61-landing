@@ -169,7 +169,7 @@ const BeaconModel = (props) => {
             <meshStandardMaterial 
               transparent 
               opacity={enclosureOpacity} 
-              color={'#79553a'}
+              color={'#e67e22'}
               roughness={0.4}
               metalness={0.8}
               roughnessMap={texture}

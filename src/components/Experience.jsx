@@ -2,7 +2,7 @@ import { useState, useRef, useLayoutEffect } from 'react';
 import { BoxGeometry, MeshNormalMaterial } from 'three';
 
 
-import { OrbitControls, ScrollControls } from '@react-three/drei';
+import { OrbitControls, ScrollControls, Html } from '@react-three/drei';
 
 
 import { BeaconModel } from './BeaconModel'
@@ -24,6 +24,7 @@ export const Experience = () => {
         {/* <Beacon scale={[0.4,0.4,0.4]} /> */}
         <Overlay />
         <BeaconModel scale={[0.4,0.4,0.4]} />
+        
       </ScrollControls>
     </>
   );
