@@ -20,7 +20,7 @@ export const Experience = () => {
       />
       <pointLight intensity={10} position={[-4, -1, -3]} />
       <ambientLight intensity={0.4} />
-      <ScrollControls pages={2} damping={0.25}>
+      <ScrollControls pages={2} damping={0.2}>
         {/* <Beacon scale={[0.4,0.4,0.4]} /> */}
         <Overlay />
         <BeaconModel scale={[0.4,0.4,0.4]} />
