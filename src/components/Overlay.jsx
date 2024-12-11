@@ -15,12 +15,14 @@ export const Overlay = () => {
 
   return (
     <Scroll html>
-      <div className="leading-none z-30 w-[100vw] h-[100vh] flex flex-row justify-between items-center font-roboto" style={{opacity: introOpacity}}>
-        <div className="w-1/3 text-[68pt] font-bold text-white text-center p-24">Introducing: <p className="text-[110pt]">Beacon</p></div>
-        <div className="w-1/3 text-[68pt] font-bold text-white text-center p-24">Because 12% of satellites never turn on in orbit</div>
+      {/* Section 1 */}
+      <div className="z-30 w-[100vw] h-[100vh] border border-red-400 p-24 flex flex-row justify-between" >
+        <div className="font-bold text-white w-1/3 text-[36pt] text-right">Header 1</div>
+        <div className="font-bold text-gray-200 w-1/3">Some more information here</div>
       </div>
 
-      <div className="z-30 w-[100vw] h-[100vh]" style={{opacity: fabOpacity}}>
+      {/* Section 2 */}
+      <div className="z-30 w-[100vw] h-[100vh] border-green-400 p-24" >
         <div className="p-12 pl-36 text-gray-100 font-bold ml-auto w-1/2 h-full flex flex-col">
           <div className="ml-auto mr-auto p-4 m-8 border border-[#252634]/60 rounded-xl text-[18pt] font-bold">
             Real-time 2-way communication
@@ -44,6 +46,65 @@ export const Overlay = () => {
           </div>
         </div>
       </div>
+
+      {/* Section 3 */}
+      <div className="z-30 w-[100vw] h-[100vh] border border-blue-400 p-24 flex flex-row justify-between" >
+        <div className="font-bold text-gray-200 w-1/3 h-full">
+          <div className="rounded-2xl backdrop-blur-sm bg-[#252634]/20 border border-[#252634]/60 w-full h-full p-12 text-2xl">
+            Some features and benefits:
+            <ul className="list-disc pl-8 pt-4 leading-10 text-lg">
+              <li>Idk list something</li>
+              <li>blah blah blah</li>
+              <li>yeet yeet skadeet</li>
+              <li>...........</li>
+            </ul>
+          </div>
+        </div>
+        <div className="font-bold text-white w-1/3 text-[36pt]">Header 3</div>
+      </div>
+
+      {/* Section 4 */}
+      <div className="z-30 w-[100vw] h-[100vh] border border-red-400 p-24 flex flex-row justify-between">
+        <div className="font-bold text-white w-1/3 text-[36pt] text-right">Header 4</div>
+        <div className="font-bold text-gray-200 w-1/3">Some more information here</div>
+      </div>
+
+      {/* Section 5 */}
+      <div className="z-30 w-[100vw] h-[100vh] border border-green-400 p-24 flex flex-row justify-between">
+        <div className="font-bold text-gray-200 w-1/3 text-right">Some more information here</div>
+        <div className="font-bold text-white w-1/3 text-[36pt]">Header 5</div>
+      </div>
+
+      {/* Section 6 */}
+      <div className="z-30 w-[100vw] h-[100vh] border border-blue-400 p-24 flex flex-row justify-between">
+        <div className="font-bold text-white w-1/3 text-[36pt] text-right">Header 6</div>
+        <div className="font-bold text-gray-200 w-1/3">Some more information here</div>
+      </div>
+
+      {/* Section 7 */}
+      <div className="z-30 w-[100vw] h-[100vh] border border-red-400 p-24 flex flex-row justify-between">
+        <div className="font-bold text-gray-200 w-1/3 text-right">Some more information here</div>
+        <div className="font-bold text-white w-1/3 text-[36pt]">Header 7</div>
+      </div>
+
+      {/* Section 8 */}
+      <div className="z-30 w-[100vw] h-[100vh] border border-green-400 p-24 flex flex-row justify-between">
+        <div className="font-bold text-white w-1/3 text-[36pt] text-right">Header 8</div>
+        <div className="font-bold text-gray-200 w-1/3">Some more information here</div>
+      </div>
+
+      {/* Section 9 */}
+      <div className="z-30 w-[100vw] h-[100vh] border border-blue-400 p-24 flex flex-row justify-between" >
+        <div className="font-bold text-gray-200 w-1/3 text-right">Some more information here</div>
+        <div className="font-bold text-white w-1/3 text-[36pt]">Header 9</div>
+      </div>
+
+      {/* Section 10 */}
+      <div className="z-30 w-[100vw] h-[100vh] border border-red-400 p-24 flex flex-row justify-between" >
+        <div className="font-bold text-white w-1/3 text-[36pt] text-right">Header 10</div>
+        <div className="font-bold text-gray-200 w-1/3">Some more information here</div>
+      </div>
+
     </Scroll>
   );
 }

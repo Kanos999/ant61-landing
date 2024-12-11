@@ -14,15 +14,10 @@ const FLOOR_HEIGHT = 8;
 const NB_FLOORS = 2;
 
 const BeaconModel = (props) => {
-  const { nodes, materials } = useGLTF('./models/beacon.glb')
+  const { nodes, materials } = useGLTF('./models/beacon-bare.glb')
   const ref = useRef();
-  const batteriesRef = useRef();
-  const chipsRef1 = useRef();
-  const chipsRef2 = useRef();
-  const pcbRef = useRef();
   const tl = useRef();
   const scroll = useScroll();
-  const [enclosureOpacity, setEnclosureOpacity] = useState(materials['Aluminum_-_Bead_Blasted.001']);
 
   var textureLoader = new THREE.TextureLoader();
   var texture = textureLoader.load('./noise.jpg');
@@ -37,8 +32,6 @@ const BeaconModel = (props) => {
     roughnessMap: texture,
     metalnessMap: texture,
     envMap: texture, // important -- especially for metals!
-    opacity: enclosureOpacity,
-    transparent: true,
     envMapIntensity: 10
   })
 
@@ -75,85 +68,45 @@ const BeaconModel = (props) => {
   useFrame(() => {
     tl.current.seek(scroll.offset * tl.current.duration());
     
-    setEnclosureOpacity(1 - 0.8 * scroll.range(0, 1/3));
   })
 
   useLayoutEffect(() => {
     tl.current = gsap.timeline();
 
     // Rotation animation
+    // tl.current.to(
+    //   ref.current.rotation,
+    //   {
+    //     duration: 0.1,
+    //     x: Math.PI / 2.8,
+    //     y: Math.PI * 1.2,
+    //     z: Math.PI / 5
+    //   },
+    //   0
+    // );
+
     tl.current.to(
       ref.current.rotation,
       {
-        duration: 1.5,
-        x: Math.PI / 2.8,
-        y: Math.PI * 1.2,
-        z: Math.PI / 5
-      },
-      0
-    );
-
-    tl.current.to(
-      ref.current.scale,
-      {
-        duration: 1.5,
-        x: 0.8,
-        y: 0.8,
-        z: 0.8
-      },
-      0
-    );
-
-    tl.current.to(
-      ref.current.position,
-      {
-        duration: 1.5,
-        x: -6,
-        y: -1.5,
+        duration: 8,
+        x: 0,
+        y: -1.5*Math.PI, // 2.5*Math.PI
         z: 0
       },
-      0
+      2
     );
 
-    // Translation animation
-    tl.current.to(
-      batteriesRef.current.position,
-      {
-        duration: 1,
-        y: 2,
-        z: 4
-      },
-      0.6
-    );
+    // tl.current.to(
+    //   ref.current.scale,
+    //   {
+    //     duration: 1.5,
+    //     x: 0.8,
+    //     y: 0.8,
+    //     z: 0.8
+    //   },
+    //   0
+    // );
 
-    tl.current.to(
-      pcbRef.current.position,
-      {
-        duration: 1,
-        y: 4,
-        z: -2
-      },
-      0.5
-    );
-
-    tl.current.to(
-      chipsRef1.current.position,
-      {
-        duration: 1,
-        y: 8,
-        x: -2,
-        z: -2
-      },
-      0.3
-    );
-    tl.current.to(
-      chipsRef2.current.position,
-      {
-        duration: 1,
-        y: 8
-      },
-      0.4
-    );
   }, []);
 
   // console.log(materials['Aluminum_-_Bead_Blasted.001'])
@@ -162,74 +115,56 @@ const BeaconModel = (props) => {
     <group {...props} dispose={null}>
       <group rotation={[Math.PI / 2, Math.PI, 0]} scale={[1,1,1]} ref={ref}>
         
-        {/* Enclosure */}
-        <group>
-          <mesh position={[0,2.42,3.1]}>
-            <boxGeometry args={[5.4, 0.1, 0.86]} />
-            <meshStandardMaterial 
-              transparent 
-              opacity={enclosureOpacity} 
-              color={'#e67e22'}
-              roughness={0.4}
-              metalness={0.8}
-              roughnessMap={texture}
-              metalnessMap={texture}
-              envMap={texture}
-              envMapIntensity={1} />
-          </mesh>
-          <mesh geometry={nodes['Beacon-model_1'].geometry} material={anodisedMaterial} />
-        </group>
-
-        {/* Batteries */}
-        <group position={[0,0,0]}>
-          <group ref={batteriesRef}>
-            <mesh geometry={nodes['Beacon-model_2'].geometry} material={batteryMaterial} />
-          </group>
-        </group>
-
-        {/* chip (yet to identify) */}
-        <group position={[0,0,0]}>
-          <group ref={chipsRef1}>
-            {/* Iridium */}
-            <mesh geometry={nodes['Beacon-model_18'].geometry} material={materials['Opaque(144,144,144)']} />
-          </group>
-        </group>
-        <group position={[0,0,0]}>
-          <group ref={chipsRef2}>
-            {/* IMU */}
-            <mesh geometry={nodes['Beacon-model_6'].geometry} material={materials['Opaque(128,128,128)']} />
-          </group>
-        </group>
-        
-
-        
-
-        {/* Chip (yet to identify) */}
-        <group position={[0,0,0]}>
-          <group ref={pcbRef}>
-            {/* PCB + P/C 104 */}
-            <mesh geometry={nodes['Beacon-model_3'].geometry} material={insulatorMaterial} />
-            <mesh geometry={nodes['Beacon-model_5'].geometry} material={pcbMaterial} />
-            
-            {/* Harwin green connector */}
-            <mesh geometry={nodes['Beacon-model_7'].geometry} material={materials['Opaque(133,237,168)']} />
-            <mesh geometry={nodes['Beacon-model_8'].geometry} material={materials['Opaque(168,168,168)']} />
-            <mesh geometry={nodes['Beacon-model_9'].geometry} material={materials['Opaque(255,206,117)']} />
-            
-            {/* Coaxial connectors */}
-            <mesh geometry={nodes['Beacon-model_10'].geometry} material={materials['Opaque(66,66,66)']} />
-            <mesh geometry={nodes['Beacon-model_13'].geometry} material={materials['Opaque(236,236,236)']} />
-          </group>
-        </group>
-        
-        
-        
+        <mesh position={[0,2.42,3.1]}>
+          <boxGeometry args={[5.4, 0.1, 0.86]} />
+          <meshStandardMaterial 
+            color={'#e67e22'}
+            roughness={0.4}
+            metalness={0.8}
+            roughnessMap={texture}
+            metalnessMap={texture}
+            envMap={texture}
+            envMapIntensity={1} />
+        </mesh>
+        <mesh position={[-4.45,0.86,0]}>
+          <boxGeometry args={[0.1, 0.86, 5.4]} />
+          <meshStandardMaterial 
+            color={'#e67e22'}
+            roughness={0.1}
+            metalness={0.8}
+            roughnessMap={texture}
+            metalnessMap={texture}
+            envMap={texture}
+            envMapIntensity={1} />
+        </mesh>
+        <mesh geometry={nodes.Beacon_bare001.geometry} material={anodisedMaterial} />
+        <mesh geometry={nodes.Beacon_bare001_1.geometry} material={materials['Opaque(0,128,0).001']} />
+        <mesh geometry={nodes.Beacon_bare001_2.geometry} material={materials['Opaque(128,128,128).001']} />
+        <mesh geometry={nodes.Beacon_bare001_3.geometry} material={materials['Opaque(176,176,176).001']} />
+        <mesh geometry={nodes.Beacon_bare001_4.geometry} material={materials['Opaque(255,255,0).001']} />
+        <mesh geometry={nodes.Beacon_bare001_5.geometry} material={materials['Opaque(133,237,168).001']} />
+        <mesh geometry={nodes.Beacon_bare001_6.geometry} material={materials['Opaque(168,168,168).001']} />
+        <mesh geometry={nodes.Beacon_bare001_7.geometry} material={materials['Opaque(255,206,117).001']} />
+        <mesh geometry={nodes.Beacon_bare001_8.geometry} material={materials['Opaque(66,66,66).001']} />
+        <mesh geometry={nodes.Beacon_bare001_9.geometry} material={materials['Opaque(255,255,255).001']} />
+        <mesh geometry={nodes.Beacon_bare001_10.geometry} material={insulatorMaterial} />
+        <mesh geometry={nodes.Beacon_bare001_11.geometry} material={materials['Opaque(236,236,236).001']} />
+        <mesh geometry={nodes.Beacon_bare001_12.geometry} material={materials['Opaque(73,73,73).001']} />
+        <mesh geometry={nodes.Beacon_bare001_13.geometry} material={materials['Opaque(212,212,212).001']} />
+        <mesh geometry={nodes.Beacon_bare001_14.geometry} material={materials['Opaque(220,160,15).001']} />
+        <mesh geometry={nodes.Beacon_bare001_15.geometry} material={materials['Opaque(191,191,191).001']} />
+        <mesh geometry={nodes.Beacon_bare001_16.geometry} material={materials['Opaque(144,144,144).001']} />
+        <mesh geometry={nodes.Beacon_bare001_17.geometry} material={materials['Opaque(202,209,238).001']} />
+        <mesh geometry={nodes.Beacon_bare001_18.geometry} material={materials['Opaque(127,127,127).001']} />
+        <mesh geometry={nodes.Beacon_bare001_19.geometry} material={materials['Opaque(255,0,0).001']} />
+        <mesh geometry={nodes.Beacon_bare001_20.geometry} material={materials['Opaque(175,175,175).001']} />
+              
       </group>
     </group>
   )
 }
 
 
-useGLTF.preload('./models/beacon.glb');
+useGLTF.preload('./models/beacon-bare.glb');
 
 export { BeaconModel };
