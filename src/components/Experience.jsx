@@ -9,20 +9,19 @@ import { BeaconModel } from './BeaconModel'
 import { Overlay } from './Overlay';
 
 
-export const Experience = () => {
+export const Experience = ({ setWireframeOpacity }) => {
   return (
     <>
      <pointLight
         position={[2,4,2]}
-        angle={0.9}
-        penumbra={1}
         intensity={20}
       />
-      <pointLight intensity={10} position={[-4, -1, -3]} />
-      <ambientLight intensity={0.4} />
+      <pointLight intensity={10} position={[-4, -4, 4]} />
+      <pointLight intensity={4} position={[0, -5, 6]} />
+      <ambientLight intensity={0.1} />
       <ScrollControls pages={10} damping={0.2}>
         {/* <Beacon scale={[0.4,0.4,0.4]} /> */}
-        <Overlay />
+        <Overlay setWireframeOpacity={setWireframeOpacity} />
         <BeaconModel scale={[0.4,0.4,0.4]} />
         
       </ScrollControls>

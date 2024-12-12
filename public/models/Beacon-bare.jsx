@@ -11,27 +11,27 @@ export function Model(props) {
   return (
     <group {...props} dispose={null}>
       <group rotation={[Math.PI / 2, 0, 0]}>
-        <mesh geometry={nodes.Beacon_bare001.geometry} material={materials['Aluminum_-_Bead_Blasted.001']} />
-        <mesh geometry={nodes.Beacon_bare001_1.geometry} material={materials['Opaque(0,128,0).001']} />
-        <mesh geometry={nodes.Beacon_bare001_2.geometry} material={materials['Opaque(128,128,128).001']} />
-        <mesh geometry={nodes.Beacon_bare001_3.geometry} material={materials['Opaque(176,176,176).001']} />
-        <mesh geometry={nodes.Beacon_bare001_4.geometry} material={materials['Opaque(255,255,0).001']} />
-        <mesh geometry={nodes.Beacon_bare001_5.geometry} material={materials['Opaque(133,237,168).001']} />
-        <mesh geometry={nodes.Beacon_bare001_6.geometry} material={materials['Opaque(168,168,168).001']} />
-        <mesh geometry={nodes.Beacon_bare001_7.geometry} material={materials['Opaque(255,206,117).001']} />
-        <mesh geometry={nodes.Beacon_bare001_8.geometry} material={materials['Opaque(66,66,66).001']} />
-        <mesh geometry={nodes.Beacon_bare001_9.geometry} material={materials['Opaque(255,255,255).001']} />
-        <mesh geometry={nodes.Beacon_bare001_10.geometry} material={materials['Steel_-_Satin.001']} />
-        <mesh geometry={nodes.Beacon_bare001_11.geometry} material={materials['Opaque(236,236,236).001']} />
-        <mesh geometry={nodes.Beacon_bare001_12.geometry} material={materials['Opaque(73,73,73).001']} />
-        <mesh geometry={nodes.Beacon_bare001_13.geometry} material={materials['Opaque(212,212,212).001']} />
-        <mesh geometry={nodes.Beacon_bare001_14.geometry} material={materials['Opaque(220,160,15).001']} />
-        <mesh geometry={nodes.Beacon_bare001_15.geometry} material={materials['Opaque(191,191,191).001']} />
-        <mesh geometry={nodes.Beacon_bare001_16.geometry} material={materials['Opaque(144,144,144).001']} />
-        <mesh geometry={nodes.Beacon_bare001_17.geometry} material={materials['Opaque(202,209,238).001']} />
-        <mesh geometry={nodes.Beacon_bare001_18.geometry} material={materials['Opaque(127,127,127).001']} />
-        <mesh geometry={nodes.Beacon_bare001_19.geometry} material={materials['Opaque(255,0,0).001']} />
-        <mesh geometry={nodes.Beacon_bare001_20.geometry} material={materials['Opaque(175,175,175).001']} />
+        <mesh geometry={nodes.Beacon_bare002.geometry} material={materials['Aluminum_-_Bead_Blasted.002']} />
+        <mesh geometry={nodes.Beacon_bare002_1.geometry} material={materials['Opaque(0,128,0).002']} />
+        <mesh geometry={nodes.Beacon_bare002_2.geometry} material={materials['Steel_-_Satin.002']} />
+        <mesh geometry={nodes.Beacon_bare002_3.geometry} material={materials['Opaque(128,128,128).002']} />
+        <mesh geometry={nodes.Beacon_bare002_4.geometry} material={materials['Opaque(176,176,176).002']} />
+        <mesh geometry={nodes.Beacon_bare002_5.geometry} material={materials['Opaque(255,255,0).002']} />
+        <mesh geometry={nodes.Beacon_bare002_6.geometry} material={materials['Opaque(133,237,168).002']} />
+        <mesh geometry={nodes.Beacon_bare002_7.geometry} material={materials['Opaque(168,168,168).002']} />
+        <mesh geometry={nodes.Beacon_bare002_8.geometry} material={materials['Opaque(255,206,117).002']} />
+        <mesh geometry={nodes.Beacon_bare002_9.geometry} material={materials['Opaque(66,66,66).002']} />
+        <mesh geometry={nodes.Beacon_bare002_10.geometry} material={materials['Opaque(255,255,255).002']} />
+        <mesh geometry={nodes.Beacon_bare002_11.geometry} material={materials['Opaque(236,236,236).002']} />
+        <mesh geometry={nodes.Beacon_bare002_12.geometry} material={materials['Opaque(73,73,73).002']} />
+        <mesh geometry={nodes.Beacon_bare002_13.geometry} material={materials['Opaque(212,212,212).002']} />
+        <mesh geometry={nodes.Beacon_bare002_14.geometry} material={materials['Opaque(220,160,15).002']} />
+        <mesh geometry={nodes.Beacon_bare002_15.geometry} material={materials['Opaque(191,191,191).002']} />
+        <mesh geometry={nodes.Beacon_bare002_16.geometry} material={materials['Opaque(144,144,144).002']} />
+        <mesh geometry={nodes.Beacon_bare002_17.geometry} material={materials['Opaque(202,209,238).002']} />
+        <mesh geometry={nodes.Beacon_bare002_18.geometry} material={materials['Opaque(127,127,127).002']} />
+        <mesh geometry={nodes.Beacon_bare002_19.geometry} material={materials['Opaque(255,0,0).002']} />
+        <mesh geometry={nodes.Beacon_bare002_20.geometry} material={materials['Opaque(175,175,175).002']} />
       </group>
     </group>
   )
