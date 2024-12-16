@@ -13,7 +13,11 @@ const App = () => {
 
 
   return (
-    <div className="w-full h-full fixed bg-gradient">
+    <div className="w-full h-full fixed">
+      <div className="bg-ant-navy p-8 fixed z-50 shadow-xl w-full text-white">
+        Beacon
+      </div>
+
       <div className="fixed top-0 w-[100vw] h-[100vh] pointer-events-none flex justify-center align-middle" style={{opacity: wireframeOpacity}}>
         <div className="-z-50 fixed w-full h-full background-grid"></div>
         <img src={wireframe} width="80%" height="98%" className="-ml-12 mt-2 " style={{resizeMode: 'stretch'}} />
@@ -21,7 +25,7 @@ const App = () => {
       <Canvas>
         <Experience setWireframeOpacity={setWireframeOpacity} />
       </Canvas>
-      <div className="background-gradient -z-50 fixed top-0 w-[100vw] h-[100vh] pointer-events-none">
+      <div className="background-space -z-50 fixed top-0 w-[100vw] h-[100vh] pointer-events-none">
       </div>
     </div>
   )

@@ -56,7 +56,7 @@ export const Overlay = ({ setWireframeOpacity }) => {
             </ul>
           </div>
         </div>
-        <div className="font-bold text-white w-1/3 text-[36pt]">Header 3</div>
+        <div className="font-bold text-white w-1/3 text-[36pt]" style={{textShadow: "1px 2px 10px #2e2f41"}}>Header 3</div>
       </div>
 
       {/* Section 4 */}
@@ -66,9 +66,9 @@ export const Overlay = ({ setWireframeOpacity }) => {
       </div>
 
       {/* Section 5 */}
-      <div className="z-30 w-[100vw] h-[100vh] border border-green-400 p-24 flex flex-row justify-between">
-        <div className="font-bold text-gray-200 w-1/3 text-right">Some more information here</div>
-        <div className="font-bold text-white w-1/3 text-[36pt]">Header 5</div>
+      <div className="z-30 w-[100vw] h-[100vh] border border-green-400 p-24 flex flex-row justify-between bg-white/90 backdrop-blur-md">
+        <div className="font-bold text-gray-700 w-1/3 text-right">Some more information here</div>
+        <div className="font-bold text-black w-1/3 text-[36pt]">Header 5</div>
       </div>
 
       {/* Section 6 */}
