@@ -21,3 +21,7 @@ html, body, label {
 .font-roboto {
   font-family: "Roboto", serif;
 }
+
+.hero-text-shadow {
+  text-shadow: 0 12px 22px rgba(0, 0, 0, 0.78);
+}

@@ -25,8 +25,8 @@ const App = () => {
       </Canvas>
 
       <div className="absolute top-0 h-[100vh] w-full flex items-center justify-center content-center bg-gradient-to-b from-transparent via-transparent via-20% to-black">
-        <div className="text-center max-w-5xl px-6 pt-20 space-y-12">
-          <h1 className="font-roboto text-white font-semibold text-6xl animate-slideup-fadein leading-relaxed">KEEPING SATELLITES ALIVE & ALWAYS WITHIN REACH</h1>
+        <div className="text-center max-w-4xl px-6 pt-20 space-y-12">
+          <h1 className="font-roboto-condensed hero-text-shadow text-white font-semibold text-6xl animate-slideup-fadein leading-tight">KEEPING SATELLITES ALIVE & ALWAYS WITHIN REACH</h1>
           <Button className="z-80 animate-slideup-fadein animate-delay-300" onClick={() => window.location.href = '#beacon'}>
             LEARN MORE
           </Button>
