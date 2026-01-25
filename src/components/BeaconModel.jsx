@@ -13,6 +13,8 @@ import { createTimeline } from 'animejs'
 const BeaconModel = ({ scrollProgressRef, baseScale = 4, glow = true, ...props }) => {
   const { nodes, materials } = useGLTF('./models/beacon.glb')
   const ref = useRef();
+  const engravingInternalSpotRef = useRef();
+  const engravingInternalTargetRef = useRef();
   const batteriesRef = useRef();
   const chipsRef1 = useRef();
   const chipsRef2 = useRef();
@@ -31,36 +33,29 @@ const BeaconModel = ({ scrollProgressRef, baseScale = 4, glow = true, ...props }
   const anodisedMaterial = useMemo(() => {
     return new THREE.MeshStandardMaterial({
       color: 0xff9a42,
-      roughness: 0.4,
+      roughness: 0.55,
       metalness: 0.8,
       roughnessMap: texture,
       metalnessMap: texture,
       opacity: 1,
       transparent: true,
-      envMapIntensity: 0.9,
+      envMapIntensity: 0.55,
     })
   }, [texture])
 
-  const engravingGlowMaterial = useMemo(() => {
-    const mat = new THREE.MeshStandardMaterial({
-      // Slightly "hotter" version of the anodised enclosure
-      color: 0x000000,
-      emissive: new THREE.Color(0x000000),
-      emissiveIntensity: 3.25,
-      emissiveMap: texture,
-      roughness: 0.02,
-      metalness: 1.9,
-      // roughnessMap: texture,
-      // metalnessMap: texture,
-      // bumpMap: texture,
-      // bumpScale: 0.03,
-      // envMapIntensity: 1.15,
-      clearcoat: 0.35,
-      clearcoatRoughness: 0.22,
+  // Non-emissive, but "poppier" reflections on the engraved plate so it catches highlights
+  // more than the enclosure.
+  const engravingPlateMaterial = useMemo(() => {
+    return new THREE.MeshStandardMaterial({
+      color: 0xff9a42,
+      roughness: 0.4,
+      metalness: 0.6,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.03,
+      envMapIntensity: 3.6,
       transparent: true,
       opacity: 0.92,
     })
-    return mat
   }, [texture])
 
   const pcbMaterial = useMemo(() => {
@@ -115,6 +110,12 @@ const BeaconModel = ({ scrollProgressRef, baseScale = 4, glow = true, ...props }
         obj.receiveShadow = true
       }
     })
+
+    if (engravingInternalSpotRef.current && engravingInternalTargetRef.current) {
+      engravingInternalSpotRef.current.target = engravingInternalTargetRef.current
+      engravingInternalTargetRef.current.updateMatrixWorld()
+      engravingInternalSpotRef.current.target.updateMatrixWorld()
+    }
 
     // Page 1: keep the model framed on the right, with a gentle rotation.
     tl.add(
@@ -239,16 +240,70 @@ const BeaconModel = ({ scrollProgressRef, baseScale = 4, glow = true, ...props }
               </mesh>
             </group>
 
-            {/* <group position={[1, 1, 1]}>
+
+            {/* Engraved Logo Backlighting */}
+            {/* <group position={[-2, 1, 3.5]}>
               <pointLight
-                color="#FFCA16"
-                intensity={0.8}
+                color="#FFFFFF"
+                intensity={2.8}
                 distance={0}
-                decay={0.2}
+                decay={0.1}
               />
               <mesh>
                 <sphereGeometry args={[0.11, 18, 18]} />
-                <meshBasicMaterial color="#FFCA16" toneMapped={false} />
+                <meshBasicMaterial color="#FFFFFF" toneMapped={false} />
+              </mesh>
+            </group>
+
+            <group position={[-1, 1, 2]}>
+              <pointLight
+                color="#FFFFFF"
+                intensity={2.8}
+                distance={0}
+                decay={0.1}
+              />
+              <mesh>
+                <sphereGeometry args={[0.11, 18, 18]} />
+                <meshBasicMaterial color="#FFFFFF" toneMapped={false} />
+              </mesh>
+            </group>
+
+            <group position={[0, 1, 3.5]}>
+              <pointLight
+                color="#FFFFFF"
+                intensity={2.8}
+                distance={0}
+                decay={0.1}
+              />
+              <mesh>
+                <sphereGeometry args={[0.11, 18, 18]} />
+                <meshBasicMaterial color="#FFFFFF" toneMapped={false} />
+              </mesh>
+            </group>
+            
+            <group position={[1, 1, 2]}>
+              <pointLight
+                color="#FFFFFF"
+                intensity={2.8}
+                distance={0}
+                decay={0.1}
+              />
+              <mesh>
+                <sphereGeometry args={[0.11, 18, 18]} />
+                <meshBasicMaterial color="#FFFFFF" toneMapped={false} />
+              </mesh>
+            </group>
+
+            <group position={[2, 1, 3.5]}>
+              <pointLight
+                color="#FFFFFF"
+                intensity={2.8}
+                distance={0}
+                decay={0.1}
+              />
+              <mesh>
+                <sphereGeometry args={[0.11, 18, 18]} />
+                <meshBasicMaterial color="#FFFFFF" toneMapped={false} />
               </mesh>
             </group> */}
           </group>
@@ -258,9 +313,66 @@ const BeaconModel = ({ scrollProgressRef, baseScale = 4, glow = true, ...props }
         <group>
           <group>
             <mesh position={[0, 2.42, 3.1]}>
+              <pointLight
+                color="#FFFFFF"
+                intensity={4.8}
+                distance={2}
+                decay={0.01}
+                position={[0.8,0.08,-0.25]}
+              />
+              <pointLight
+                color="#FFFFFF"
+                intensity={4.8}
+                distance={2}
+                decay={0.01}
+                position={[2,0.08,-0.08]}
+              />
+
+              <pointLight
+                color="#FFFFFF"
+                intensity={5.8}
+                distance={2}
+                decay={0.1}
+                position={[-2.06,0.06,-0.08]}
+              />
+              <pointLight
+                color="#FFFFFF"
+                intensity={5.8}
+                distance={2}
+                decay={0.1}
+                position={[-1.15,0.06,0.2]}
+              />
+              <pointLight
+                color="#FFFFFF"
+                intensity={5.8}
+                distance={2}
+                decay={0.1}
+                position={[-0.35,0.06,0.2]}
+              />
+
+              {/* <pointLight
+                color="#FFFFFF"
+                intensity={2.8}
+                distance={8}
+                decay={0.1}
+                position={[0,0,0.1]}
+              /> */}
               <boxGeometry args={[5.4, 0.1, 0.86]} />
-              <primitive object={engravingGlowMaterial} attach="material" />
+              <primitive object={engravingPlateMaterial} attach="material" />
             </mesh>
+
+            {/* Internal spotlight: lives inside the enclosure and grazes the plate/seam */}
+            <object3D ref={engravingInternalTargetRef} position={[0, 2.40, 3.06]} />
+            {/* <spotLight
+              ref={engravingInternalSpotRef}
+              position={[0, 2.20, 2.55]}
+              intensity={0.9}
+              color="#FFE6C9"
+              angle={0.55}
+              penumbra={1}
+              decay={2}
+              distance={3.2}
+            /> */}
           </group>
           <mesh geometry={nodes['Beacon-model_1'].geometry} material={anodisedMaterial} />
         </group>
