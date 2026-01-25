@@ -15,7 +15,7 @@ const App = () => {
     <div className="App bg-black h-full w-full absolute">
       <Header />
       <Canvas
-        className="fixed inset-0 h-full w-full top-0 left-0 bottom-0 right-0 "
+        className="fixed inset-0 h-full w-full top-0 left-0 bottom-0 right-0 animate-slideup-fadein animate-delay-600"
         shadows
         dpr={[1, 2]}
         gl={{ antialias: true }}
@@ -24,13 +24,10 @@ const App = () => {
         <Experience scrollProgressRef={scrollProgressRef} />
       </Canvas>
 
-      <div className="absolute top-0 h-[100vh] w-full flex items-center justify-center content-center z-50 font-roboto-condensed">
-        <div className="text-center max-w-2xl px-6">
-          <h1 className="font-roboto text-white font-bold text-6xl mb-4 animate-slideup-fadein">KEEPING SATELLITES ALIVE, CONNECTED</h1>
-          <p className="font-roboto text-white/80 text-lg animate-slideup-fadein animate-delay-300">
-            Save your satellite
-          </p>
-          <Button className="z-80 animate-slideup-fadein animate-delay-600 text-sky-darker" onClick={() => window.location.href = '#beacon'}>
+      <div className="absolute top-0 h-[100vh] w-full flex items-center justify-center content-center font-roboto-condensed bg-gradient-to-b from-transparent via-transparent via-20% to-black">
+        <div className="text-center max-w-2xl px-6 pt-20 space-y-12">
+          <h1 className="font-roboto text-white font-bold text-6xl animate-slideup-fadein">KEEPING SATELLITES ALIVE, CONNECTED</h1>
+          <Button className="z-80 animate-slideup-fadein animate-delay-300" onClick={() => window.location.href = '#beacon'}>
             LEARN MORE
           </Button>
         </div>

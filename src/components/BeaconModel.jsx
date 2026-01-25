@@ -10,7 +10,7 @@ import { useFrame } from "@react-three/fiber";
 import * as THREE from 'three'
 import { createTimeline } from 'animejs'
 
-const BeaconModel = ({ scrollProgressRef, baseScale = 4, ...props }) => {
+const BeaconModel = ({ scrollProgressRef, baseScale = 4, glow = true, ...props }) => {
   const { nodes, materials } = useGLTF('./models/beacon.glb')
   const ref = useRef();
   const batteriesRef = useRef();
@@ -35,11 +35,32 @@ const BeaconModel = ({ scrollProgressRef, baseScale = 4, ...props }) => {
       metalness: 0.8,
       roughnessMap: texture,
       metalnessMap: texture,
-      envMap: texture,
       opacity: 1,
       transparent: true,
-      envMapIntensity: 2.5,
+      envMapIntensity: 0.9,
     })
+  }, [texture])
+
+  const engravingGlowMaterial = useMemo(() => {
+    const mat = new THREE.MeshStandardMaterial({
+      // Slightly "hotter" version of the anodised enclosure
+      color: 0x000000,
+      emissive: new THREE.Color(0x000000),
+      emissiveIntensity: 3.25,
+      emissiveMap: texture,
+      roughness: 0.02,
+      metalness: 1.9,
+      // roughnessMap: texture,
+      // metalnessMap: texture,
+      // bumpMap: texture,
+      // bumpScale: 0.03,
+      // envMapIntensity: 1.15,
+      clearcoat: 0.35,
+      clearcoatRoughness: 0.22,
+      transparent: true,
+      opacity: 0.92,
+    })
+    return mat
   }, [texture])
 
   const pcbMaterial = useMemo(() => {
@@ -48,7 +69,6 @@ const BeaconModel = ({ scrollProgressRef, baseScale = 4, ...props }) => {
       roughness: 0.95,
       metalness: 0.02,
       roughnessMap: texture,
-      envMap: texture,
       envMapIntensity: 1,
     })
   }, [texture])
@@ -60,7 +80,6 @@ const BeaconModel = ({ scrollProgressRef, baseScale = 4, ...props }) => {
       metalness: 0.1,
       roughnessMap: texture,
       metalnessMap: texture,
-      envMap: texture,
       envMapIntensity: 1,
     })
   }, [texture])
@@ -199,17 +218,50 @@ const BeaconModel = ({ scrollProgressRef, baseScale = 4, ...props }) => {
   return (
     <group {...props} dispose={null}>
       <group
-        rotation={[Math.PI / 2, Math.PI, -Math.PI / 4]}
+        rotation={[Math.PI / 2, Math.PI, 0]}
         scale={[baseScale, baseScale, baseScale]}
         ref={ref}
       >
+
+        {/* Internal lighting (glows through openings) */}
+        {glow && (
+          <group>
+            <group position={[0.0, 0.6, 1.4]}>
+              <pointLight
+                color="#FFE6C9"
+                intensity={0.12}
+                distance={2.2}
+                decay={2}
+              />
+              <mesh>
+                <sphereGeometry args={[0.05, 14, 14]} />
+                <meshBasicMaterial color="#FFE6C9" toneMapped={false} transparent opacity={0.35} />
+              </mesh>
+            </group>
+
+            {/* <group position={[1, 1, 1]}>
+              <pointLight
+                color="#FFCA16"
+                intensity={0.8}
+                distance={0}
+                decay={0.2}
+              />
+              <mesh>
+                <sphereGeometry args={[0.11, 18, 18]} />
+                <meshBasicMaterial color="#FFCA16" toneMapped={false} />
+              </mesh>
+            </group> */}
+          </group>
+        )}
         
         {/* Enclosure */}
         <group>
-          <mesh position={[0,2.42,3.1]}>
-            <boxGeometry args={[5.4, 0.1, 0.86]} />
-            <primitive object={anodisedMaterial} attach="material" />
-          </mesh>
+          <group>
+            <mesh position={[0, 2.42, 3.1]}>
+              <boxGeometry args={[5.4, 0.1, 0.86]} />
+              <primitive object={engravingGlowMaterial} attach="material" />
+            </mesh>
+          </group>
           <mesh geometry={nodes['Beacon-model_1'].geometry} material={anodisedMaterial} />
         </group>
 
