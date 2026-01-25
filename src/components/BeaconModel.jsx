@@ -4,178 +4,211 @@ Command: npx gltfjsx@6.5.3 beacon.glb
 */
 
 import React from 'react'
-import { useState, useRef, useLayoutEffect } from 'react';
-import { useGLTF, useScroll } from '@react-three/drei'
+import { useMemo, useRef, useLayoutEffect } from 'react';
+import { useGLTF } from '@react-three/drei'
 import { useFrame } from "@react-three/fiber";
 import * as THREE from 'three'
-import gsap from "gsap";
+import { createTimeline } from 'animejs'
 
-const FLOOR_HEIGHT = 8;
-const NB_FLOORS = 2;
-
-const BeaconModel = (props) => {
+const BeaconModel = ({ scrollProgressRef, baseScale = 4, ...props }) => {
   const { nodes, materials } = useGLTF('./models/beacon.glb')
   const ref = useRef();
   const batteriesRef = useRef();
   const chipsRef1 = useRef();
   const chipsRef2 = useRef();
   const pcbRef = useRef();
-  const tl = useRef();
-  const scroll = useScroll();
-  const [enclosureOpacity, setEnclosureOpacity] = useState(materials['Aluminum_-_Bead_Blasted.001']);
+  const timelineRef = useRef(null)
+  const opacityStateRef = useRef({ value: 1 })
 
-  var textureLoader = new THREE.TextureLoader();
-  var texture = textureLoader.load('./noise.jpg');
+  const texture = useMemo(() => {
+    const loader = new THREE.TextureLoader()
+    const t = loader.load('./noise.jpg')
+    t.wrapS = THREE.RepeatWrapping
+    t.wrapT = THREE.RepeatWrapping
+    return t
+  }, [])
 
-  texture.wrapS = THREE.RepeatWrapping;
-  texture.wrapT = THREE.RepeatWrapping;
-  
-  const anodisedMaterial = new THREE.MeshStandardMaterial({
-    color: 0xff9a42,//0xec984e, 
-    roughness: 0.4,
-    metalness: 0.8,
-    roughnessMap: texture,
-    metalnessMap: texture,
-    envMap: texture, // important -- especially for metals!
-    opacity: enclosureOpacity,
-    transparent: true,
-    envMapIntensity: 10
-  })
+  const anodisedMaterial = useMemo(() => {
+    return new THREE.MeshStandardMaterial({
+      color: 0xff9a42,
+      roughness: 0.4,
+      metalness: 0.8,
+      roughnessMap: texture,
+      metalnessMap: texture,
+      envMap: texture,
+      opacity: 1,
+      transparent: true,
+      envMapIntensity: 2.5,
+    })
+  }, [texture])
 
-  const pcbMaterial = new THREE.MeshStandardMaterial({
-    color: 0x008800,//0xec984e, 
-    roughness: 0.95,
-    metalness: 0.02,
-    roughnessMap: texture,
-    // metalnessMap: texture,
-    envMap: texture, // important -- especially for metals!
-    envMapIntensity: 1
-  })
+  const pcbMaterial = useMemo(() => {
+    return new THREE.MeshStandardMaterial({
+      color: 0x008800,
+      roughness: 0.95,
+      metalness: 0.02,
+      roughnessMap: texture,
+      envMap: texture,
+      envMapIntensity: 1,
+    })
+  }, [texture])
 
-  const wireframeMaterial = new THREE.MeshStandardMaterial({
-    wireframe: true
-  })
+  const insulatorMaterial = useMemo(() => {
+    return new THREE.MeshStandardMaterial({
+      color: 0x666666,
+      roughness: 0.6,
+      metalness: 0.1,
+      roughnessMap: texture,
+      metalnessMap: texture,
+      envMap: texture,
+      envMapIntensity: 1,
+    })
+  }, [texture])
 
-  const insulatorMaterial = new THREE.MeshStandardMaterial({
-    color: 0x666666,
-    roughness: 0.6,
-    metalness: 0.1,
-    roughnessMap: texture,
-    metalnessMap: texture,
-    envMap: texture, // important -- especially for metals!
-    envMapIntensity: 1
-  })
-
-  const batteryMaterial = new THREE.MeshStandardMaterial({
-    color: 0x049ef4,
-    roughness: 0.1,
-    metalness: 0.2,
-  })
+  const batteryMaterial = useMemo(() => {
+    return new THREE.MeshStandardMaterial({
+      color: 0x049ef4,
+      roughness: 0.1,
+      metalness: 0.2,
+    })
+  }, [])
 
   useFrame(() => {
-    tl.current.seek(scroll.offset * tl.current.duration());
-    
-    setEnclosureOpacity(1 - 0.8 * scroll.range(0, 1/3));
+    const timeline = timelineRef.current
+    if (timeline) {
+      const progress = scrollProgressRef?.current ?? 0
+      timeline.seek(progress * timeline.duration)
+    }
+
+    anodisedMaterial.opacity = opacityStateRef.current.value
   })
 
   useLayoutEffect(() => {
-    tl.current = gsap.timeline();
+    if (!ref.current) return
 
-    // Rotation animation
-    tl.current.to(
-      ref.current.rotation,
-      {
-        duration: 1.5,
-        x: Math.PI / 2.8,
-        y: Math.PI * 1.2,
-        z: Math.PI / 5
-      },
-      0
-    );
+    const tl = createTimeline({ autoplay: false, easing: 'easeInOutQuad' })
 
-    tl.current.to(
-      ref.current.scale,
-      {
-        duration: 1.5,
-        x: 0.8,
-        y: 0.8,
-        z: 0.8
-      },
-      0
-    );
+    // Enable shadows on all meshes for a more realistic product render.
+    ref.current.traverse((obj) => {
+      if (!obj) return
+      if (obj.isMesh) {
+        obj.castShadow = true
+        obj.receiveShadow = true
+      }
+    })
 
-    tl.current.to(
-      ref.current.position,
+    // Page 1: keep the model framed on the right, with a gentle rotation.
+    tl.add(
       {
-        duration: 1.5,
-        x: -6,
-        y: -1.5,
-        z: 0
+        targets: ref.current.rotation,
+        duration: 1200,
+        x: ref.current.rotation.x + Math.PI / 10,
+        y: ref.current.rotation.y + Math.PI * 0.8,
+        z: ref.current.rotation.z,
       },
-      0
-    );
+      0,
+    )
 
-    // Translation animation
-    tl.current.to(
-      batteriesRef.current.position,
+    tl.add(
       {
-        duration: 1,
-        y: 2,
-        z: 4
+        targets: ref.current.scale,
+        duration: 1200,
+        x: baseScale,
+        y: baseScale,
+        z: baseScale,
       },
-      0.6
-    );
+      0,
+    )
 
-    tl.current.to(
-      pcbRef.current.position,
+    // Transition into page 2: drift slightly left and forward
+    tl.add(
       {
-        duration: 1,
-        y: 4,
-        z: -2
+        targets: ref.current.position,
+        duration: 900,
+        x: -2.2,
+        y: -0.6,
+        z: 1.2,
       },
-      0.5
-    );
+      900,
+    )
 
-    tl.current.to(
-      chipsRef1.current.position,
+    // Explode internals
+    if (batteriesRef.current) {
+      tl.add(
+        {
+          targets: batteriesRef.current.position,
+          duration: 1000,
+          y: 2,
+          z: 4,
+        },
+        1050,
+      )
+    }
+
+    if (pcbRef.current) {
+      tl.add(
+        {
+          targets: pcbRef.current.position,
+          duration: 1000,
+          y: 4,
+          z: -2,
+        },
+        1000,
+      )
+    }
+
+    if (chipsRef1.current) {
+      tl.add(
+        {
+          targets: chipsRef1.current.position,
+          duration: 1000,
+          y: 8,
+          x: -2,
+          z: -2,
+        },
+        1000,
+      )
+    }
+
+    if (chipsRef2.current) {
+      tl.add(
+        {
+          targets: chipsRef2.current.position,
+          duration: 1000,
+          y: 8,
+        },
+        1050,
+      )
+    }
+
+    // Fade the enclosure as we approach page 2
+    tl.add(
       {
-        duration: 1,
-        y: 8,
-        x: -2,
-        z: -2
+        targets: opacityStateRef.current,
+        duration: 900,
+        value: 0.2,
       },
-      0.3
-    );
-    tl.current.to(
-      chipsRef2.current.position,
-      {
-        duration: 1,
-        y: 8
-      },
-      0.4
-    );
-  }, []);
+      850,
+    )
+
+    timelineRef.current = tl
+  }, [baseScale]);
 
   // console.log(materials['Aluminum_-_Bead_Blasted.001'])
 
   return (
     <group {...props} dispose={null}>
-      <group rotation={[Math.PI / 2, Math.PI, 0]} scale={[1,1,1]} ref={ref}>
+      <group
+        rotation={[Math.PI / 2, Math.PI, -Math.PI / 4]}
+        scale={[baseScale, baseScale, baseScale]}
+        ref={ref}
+      >
         
         {/* Enclosure */}
         <group>
           <mesh position={[0,2.42,3.1]}>
             <boxGeometry args={[5.4, 0.1, 0.86]} />
-            <meshStandardMaterial 
-              transparent 
-              opacity={enclosureOpacity} 
-              color={'#e67e22'}
-              roughness={0.4}
-              metalness={0.8}
-              roughnessMap={texture}
-              metalnessMap={texture}
-              envMap={texture}
-              envMapIntensity={1} />
+            <primitive object={anodisedMaterial} attach="material" />
           </mesh>
           <mesh geometry={nodes['Beacon-model_1'].geometry} material={anodisedMaterial} />
         </group>

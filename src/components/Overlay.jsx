@@ -1,49 +1,89 @@
-import { Scroll, useScroll } from '@react-three/drei';
-import { useFrame } from '@react-three/fiber';
-import { useState, useRef, useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react'
+import { createTimeline } from 'animejs'
 
+export const Overlay = ({ scrollProgressRef }) => {
+  const stageRef = useRef(null)
+  const titleRef = useRef(null)
+  const featuresRef = useRef(null)
+  const timelineRef = useRef(null)
+  const rafIdRef = useRef(null)
 
-export const Overlay = () => {
-  const scroll = useScroll();
-  const [introOpacity, setIntroOpacity] = useState(1);
-  const [fabOpacity, setFabOpacity] = useState(1);
+  useLayoutEffect(() => {
+    if (!stageRef.current || !titleRef.current || !featuresRef.current) return
 
-  useFrame(() => {
-    setIntroOpacity(1 - scroll.range(0, 1/3));
-    setFabOpacity(scroll.range(2/3, 1/3));
-  }, []);
+    stageRef.current.style.backgroundColor = '#000000'
+    titleRef.current.style.opacity = '1'
+    titleRef.current.style.transform = 'translate(0px, 0px)'
+    featuresRef.current.style.opacity = '0'
+    featuresRef.current.style.transform = 'translateY(24px)'
+
+    const tl = createTimeline({ autoplay: false, easing: 'easeInOutQuad' })
+
+    // Page 1: subtle title drift
+    tl.add({ targets: titleRef.current, translateY: [0, -16], duration: 900 }, 0)
+
+    // Transition between pages: title out, bg to yellow, features in
+    tl.add(
+      { targets: titleRef.current, opacity: [1, 0], translateX: [0, -40], duration: 650 },
+      850,
+    )
+    tl.add({ targets: stageRef.current, backgroundColor: ['#000000', '#ffcc33'], duration: 900 }, 850)
+    tl.add({ targets: featuresRef.current, opacity: [0, 1], translateY: [24, 0], duration: 700 }, 1050)
+
+    timelineRef.current = tl
+  }, [])
+
+  useEffect(() => {
+    const tick = () => {
+      const tl = timelineRef.current
+      if (tl) {
+        const progress = scrollProgressRef?.current ?? 0
+        tl.seek(progress * tl.duration)
+      }
+      rafIdRef.current = window.requestAnimationFrame(tick)
+    }
+
+    rafIdRef.current = window.requestAnimationFrame(tick)
+    return () => {
+      if (rafIdRef.current) window.cancelAnimationFrame(rafIdRef.current)
+    }
+  }, [scrollProgressRef])
 
   return (
-    <Scroll html>
-      <div className="leading-none z-30 w-[100vw] h-[100vh] flex flex-row justify-between items-center font-roboto" style={{opacity: introOpacity}}>
-        <div className="w-1/3 text-[68pt] font-bold text-white text-center p-24">Introducing: <p className="text-[110pt]">Beacon</p></div>
-        <div className="w-1/3 text-[68pt] font-bold text-white text-center p-24">Because 12% of satellites never turn on in orbit</div>
-      </div>
+    <div className="relative h-[200vh]">
+      <div ref={stageRef} className="sticky top-0 h-screen w-screen">
+        {/* Page 1: title on left, model on right (via Canvas) */}
+        <section className="absolute inset-0 flex items-center">
+          <div ref={titleRef} className="w-1/2 pl-24 pr-10 leading-tight">
+            <div className="text-white font-roboto font-bold text-[78pt] tracking-tight">Beacon</div>
+            <div className="text-white/80 font-roboto text-[22pt] mt-6 max-w-xl">
+              The always-on link for your satellite.
+            </div>
+          </div>
+          <div className="w-1/2" />
+        </section>
 
-      <div className="z-30 w-[100vw] h-[100vh]" style={{opacity: fabOpacity}}>
-        <div className="p-12 pl-36 text-gray-100 font-bold ml-auto w-1/2 h-full flex flex-col">
-          <div className="ml-auto mr-auto p-4 m-8 border border-[#252634]/60 rounded-xl text-[18pt] font-bold">
-            Real-time 2-way communication
-            <div className="font-normal text-[14pt] text-gray-400 mt-2">
-              Stay connected no matter where you are. Our beacon ensures seamless communication, enabling instant 
-              updates and responses when it matters most.
-            </div>  
-          </div>
-          <div className="ml-auto mr-auto p-4 m-8 border border-[#252634]/60 rounded-xl text-[18pt] font-bold">
-            Accurate positioning & state estimation
-            <div className="font-normal text-[14pt] text-gray-400 mt-2">
-              Know exactly where you are and how you're performing. With cutting-edge technology, our beacon provides 
-              unparalleled accuracy in location and status tracking.
+        {/* Page 2: features on solid #ffcc33 */}
+        <section className="absolute inset-0 flex items-center">
+          <div ref={featuresRef} className="w-full px-24">
+            <div className="text-black font-roboto font-bold text-[54pt]">Features</div>
+            <div className="mt-10 grid grid-cols-3 gap-10">
+              <div className="text-black">
+                <div className="font-bold text-[22pt]">2-way communication</div>
+                <div className="mt-3 text-[14pt] opacity-80">Independent messaging via inter-satellite links.</div>
+              </div>
+              <div className="text-black">
+                <div className="font-bold text-[22pt]">Accurate state estimation</div>
+                <div className="mt-3 text-[14pt] opacity-80">Know where you are and how you’re performing.</div>
+              </div>
+              <div className="text-black">
+                <div className="font-bold text-[22pt]">Redundant power</div>
+                <div className="mt-3 text-[14pt] opacity-80">Double-redundant independent power for reliability.</div>
+              </div>
             </div>
           </div>
-          <div className="ml-auto mr-auto p-4 m-8 border border-[#252634]/60 rounded-xl text-[18pt] font-bold">
-            Double-redundant independent power
-            <div className="font-normal text-[14pt] text-gray-400 mt-2">
-              Reliability you can trust. Dual power systems guarantee continuous operation, even in the most demanding environments.
-            </div>
-          </div>
-        </div>
+        </section>
       </div>
-    </Scroll>
-  );
+    </div>
+  )
 }

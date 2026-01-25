@@ -3,9 +3,14 @@
 
 #root {
   width: 100vw;
-  height: 100vh;
-  background: rgb(4,4,10);
-  background: linear-gradient(90deg, rgba(4,4,10,1) 0%, rgba(18,19,28,1) 50%, rgba(4,4,10,1) 100%);
+  min-height: 100vh;
+  /* background: rgb(4,4,10); */
+  /* background: linear-gradient(90deg, rgba(4,4,10,1) 0%, rgba(18,19,28,1) 50%, rgba(4,4,10,1) 100%); */
+  
+}
+
+html, body {
+  margin: 0;
 }
 
 
