@@ -34,8 +34,6 @@ const App = () => {
       </div>
 
       <div className="relative z-10 h-screen w-screen">
-        <img src="/beacon_glass_render.PNG" className="pointer-events-none absolute left-1/2 top-1/2 h-3/4 w-auto -translate-y-1/2 overflow-hidden rounded-3xl opacity-70 z-20" />
-
         <Overlay scrollProgressRef={scrollProgressRef} />
       </div>
     </div>
