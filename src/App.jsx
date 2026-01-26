@@ -12,7 +12,7 @@ const App = () => {
   const scrollProgressRef = useScrollProgress();
 
   return (
-    <div className="App bg-black h-full w-full absolute">
+    <div className="App bg-black h-full w-full absolute overflow-x-hidden">
       <Header />
       <Canvas
         className="fixed inset-0 h-full w-full top-0 left-0 bottom-0 right-0 animate-slideup-fadein animate-delay-600"
@@ -34,18 +34,8 @@ const App = () => {
       </div>
 
       <div className="relative z-10 h-screen w-screen">
-        
-        <IsometricAccentBox
-          className="pointer-events-none absolute left-1/2 top-1/2 h-[180px] w-[220px] -translate-x-1/2 -translate-y-[420px]"
-          stroke="rgba(255,154,66,0.95)"
-          fill="rgba(255,154,66,0.20)"
-          lineWidth={2}
-        />
-        <SatelliteOutlineCanvas
-          className="pointer-events-none absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-3xl opacity-70 z-20"
-          stroke="rgba(255,255,255,0.5)"
-          lineWidth={2}
-        />
+        <img src="/beacon_glass_render.PNG" className="pointer-events-none absolute left-1/2 top-1/2 h-3/4 w-auto -translate-y-1/2 overflow-hidden rounded-3xl opacity-70 z-20" />
+
         <Overlay scrollProgressRef={scrollProgressRef} />
       </div>
     </div>

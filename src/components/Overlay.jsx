@@ -50,33 +50,36 @@ export const Overlay = ({ scrollProgressRef }) => {
   }, [scrollProgressRef])
 
   return (
-    <div className="relative h-[200vh]">
-      <div ref={stageRef} className="sticky top-0 h-screen w-screen">
+    <div className="relative h-[200vh] -top-1/4 ">
+      <div ref={stageRef} className="sticky top-0 h-screen w-screen bg-gradient-to-b from-[#000000] to-[#252634]">
         {/* Page 1: title on left, model on right (via Canvas) */}
         <section className="absolute inset-0 flex items-center">
-          <div ref={titleRef} className="w-1/2 pl-24 pr-10 leading-tight">
-            <div className="text-white font-roboto font-bold text-[78pt] tracking-tight">Beacon</div>
-            <div className="text-white/80 font-roboto text-[22pt] mt-6 max-w-xl">
-              The always-on link for your satellite.
+          <div ref={titleRef} className="w-1/2 pl-24 pr-10">
+            <div className="text-white font-roboto font-bold text-2xl tracking-tight uppercase">unparalleled mission assurance</div>
+            <div className="text-white/80 font-roboto-condensed font-light text-lg leading-relaxed mt-6 max-w-xl">
+              Engineered to minimise risk and maximise operational uptime, the Beacon
+              delivers advanced inter-satellite communication, real-time spacecraft
+              diagnostics and rapid recovery capabilities — all within a single, robust,
+              independent system.
             </div>
           </div>
-          <div className="w-1/2" />
+          <img src="/beacon_diagram1.png" alt="Beacon system diagram" className="w-1/2 h-auto pr-24 pointer-events-none select-none" />
         </section>
 
         {/* Page 2: features on solid #ffcc33 */}
         <section className="absolute inset-0 flex items-center">
           <div ref={featuresRef} className="w-full px-24">
-            <div className="text-black font-roboto font-bold text-[54pt]">Features</div>
+            <div className="text-white font-roboto font-bold text-[54pt]">Features</div>
             <div className="mt-10 grid grid-cols-3 gap-10">
-              <div className="text-black">
+              <div className="text-white">
                 <div className="font-bold text-[22pt]">2-way communication</div>
                 <div className="mt-3 text-[14pt] opacity-80">Independent messaging via inter-satellite links.</div>
               </div>
-              <div className="text-black">
+              <div className="text-white">
                 <div className="font-bold text-[22pt]">Accurate state estimation</div>
                 <div className="mt-3 text-[14pt] opacity-80">Know where you are and how you’re performing.</div>
               </div>
-              <div className="text-black">
+              <div className="text-white">
                 <div className="font-bold text-[22pt]">Redundant power</div>
                 <div className="mt-3 text-[14pt] opacity-80">Double-redundant independent power for reliability.</div>
               </div>
