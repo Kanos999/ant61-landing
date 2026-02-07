@@ -70,7 +70,7 @@ const buildNearestNeighborSegments = (positions, neighborsPerPoint = 3) => {
 
 export const GlobeConstellation = ({
   scrollProgressRef,
-  globeRadius = 5.4,
+  globeRadius = 4.6,
   satelliteCount = 80,
   satelliteAltitudeKm = 1100,
 }) => {
@@ -269,7 +269,7 @@ export const GlobeConstellation = ({
 
         const dist = Math.sqrt(c.d2)
         const t = THREE.MathUtils.clamp((renderDist - dist) / renderDist, 0, 1)
-        const targetOpacity = 1.5 * (t * t)
+        const targetOpacity = 2.5 * (t * t)
 
         // Ease toward the distance-based opacity to avoid any residual popping.
         stateArr[k].opacity = THREE.MathUtils.lerp(stateArr[k].opacity, targetOpacity, 0.12)
