@@ -9,23 +9,34 @@ const extendedLeftEndx = -13;
 
 const components = [
   {
-    id: 1,
-    start: { x: 55, y: 15 },
-    joint: { x: 70, y: -19 },
-    svgArray: [
-      {x: 55, y: 15},
-      {x: 70, y: 19},
-      {x: 106, y: 19},
-    ],
-    side: "right",
-    label: "Testing",
-    description:
-      "The Beacon is equipped with an independent battery, ensuring continued operation for up to one week in the event of satellite power loss. This guarantees reliable anomaly diagnostics and recovery, even when the primary satellite systems are offline, providing mission-critical assurance during unforeseen power failures.",
-  },
-  {
     id: 2,
     start: { x: 46, y: 43 },
     joint: { x: 70, y: -12 },
+    svgArray: [
+      { x: 42.2, y: 46 },
+      { x: 47.4, y: 34 },
+      { x: 50.7, y: 42 },
+      { x: 45.5, y: 54 },
+      { x: 42.2, y: 46 },
+      { x: 42.2, y: 48 },
+      { x: 45.5, y: 56 },
+      { x: 45.5, y: 54 },
+      { x: 50.7, y: 42 },
+      { x: 50.7, y: 44 },
+      { x: 45.5, y: 56 },
+      { x: 45.5, y: 54 },
+    ],
+    svgArray2: [
+      { x: 46, y: 55.3 },
+      { x: 51.2, y: 42.8 },
+      { x: 52.8, y: 46.4 },
+      { x: 47.7, y: 59.2 },
+      { x: 46, y: 55.3 },
+      { x: 46, y: 57.3 },
+      { x: 47.2, y: 60.4 },
+      { x: 47.7, y: 59.2 },
+      { x: 46, y: 55.3 },
+    ],
     side: "right",
     label: "Telemetry",
     description:
@@ -35,6 +46,28 @@ const components = [
     id: 3,
     start: { x: 52, y: 36 },
     joint: { x: 70, y: -5 },
+    svgArray: [
+      { x: 48, y: 32.7 },
+      { x: 48, y: 34.9 },
+      { x: 52.8, y: 46.7 },
+      { x: 53.3, y: 45 },
+      { x: 48, y: 32.7 },
+      { x: 50.1, y: 27.9 },
+      { x: 55.5, y: 39.8 },
+      { x: 53.3, y: 45 },
+      { x: 48, y: 32.9 },
+    ],
+    svgArray2: [
+      { x: 50.5, y: 26.7 },
+      { x: 52.6, y: 22.2 },
+      { x: 57.8, y: 33.5 },
+      { x: 55.9, y: 38.3 },
+      { x: 50.5, y: 26.7 },
+      { x: 50.5, y: 28.5 },
+      { x: 55.4, y: 39.6 },
+      { x: 56, y: 38.5 },
+      { x: 50.5, y: 26.7 },
+    ],
     side: "right",
     label: "Diagnostics",
     description:
@@ -44,26 +77,75 @@ const components = [
     id: 4,
     start: { x: 60, y: 36 },
     joint: { x: 74, y: 2 },
+    svgArray: [
+      { x: 34.6, y: 35.9 },
+      { x: 34.8, y: 34 },
+      { x: 35, y: 32.6 },
+      { x: 35.2, y: 31.5 },
+      { x: 35.7, y: 31.7 },
+      { x: 36.2, y: 32.6 },
+      { x: 36.6, y: 33.5 },
+      { x: 37.3, y: 35.2 },
+      { x: 37.6, y: 35.4 },
+      { x: 38.4, y: 43.8 },
+      { x: 39.3, y: 46.6 },
+      { x: 49.8, y: 23.7 },
+      { x: 50.2, y: 22.3 },
+      { x: 50.5, y: 19.5 },
+      { x: 51, y: 17.2 },
+      { x: 50.4, y: 8.3 },
+      { x: 50.2, y: 7.8 },
+      { x: 49.6, y: 7.4 },
+      { x: 49.1, y: 6 },
+      { x: 48.5, y: 5 },
+      { x: 48, y: 5 },
+      { x: 35.1, y: 31.7 },
+      { x: 34.6, y: 35.9 },
+      { x: 35.5, y: 38.1 },
+      { x: 36.4, y: 38.8 },
+      { x: 38.4, y: 43.8 },
+      { x: 37.6, y: 35.4 },
+      { x: 37.3, y: 35.2 },
+      { x: 36.6, y: 33.5 },
+      { x: 36.2, y: 32.6 },
+      { x: 35.7, y: 31.7 },
+      { x: 35.2, y: 31.5 },
+    ],
+    svgArray2: [
+      { x: 60.1, y: 28.4 },
+      { x: 60.6, y: 29.8 },
+      { x: 61, y: 30.7 },
+      { x: 61.5, y: 31.7 },
+      { x: 62, y: 32.6 },
+      { x: 62.8, y: 35.6 },
+      { x: 63.4, y: 40.6 },
+      { x: 63.8, y: 43.6 },
+      { x: 51.2, y: 78.4 },
+      { x: 50.7, y: 72.8 },
+      { x: 50.4, y: 70.4 },
+      { x: 49.9, y: 67.2 },
+      { x: 49.1, y: 64.8 },
+      { x: 48.5, y: 63.9 },
+      { x: 48, y: 62.5 },
+      { x: 47.3, y: 60.6 },
+      { x: 46.5, y: 64.8 },
+      { x: 49.1, y: 71.8 },
+      { x: 49.2, y: 73.7 },
+      { x: 50.6, y: 77.9 },
+      { x: 51.1, y: 78.4 },
+      { x: 50.9, y: 75.6 },
+      { x: 50.8, y: 73.2 },
+      { x: 50.4, y: 70 },
+      { x: 50, y: 67.6 },
+      { x: 49.3, y: 65.3 },
+      { x: 49.3, y: 65.3 },
+      { x: 48.7, y: 64.4 },
+      { x: 48.2, y: 63 },
+      { x: 47.8, y: 62 },
+      { x: 47.3, y: 60.2 },
+    ],
     side: "right",
     label: "Power",
-    description:
-      "The Beacon is equipped with an independent battery, ensuring continued operation for up to one week in the event of satellite power loss. This guarantees reliable anomaly diagnostics and recovery, even when the primary satellite systems are offline, providing mission-critical assurance during unforeseen power failures.",
-  },
-  {
-    id: 5,
-    start: { x: 34, y: 55 },
-    joint: { x: 20, y: 84 },
-    side: "left",
-    label: "Robust",
-    description:
-      "The Beacon is equipped with an independent battery, ensuring continued operation for up to one week in the event of satellite power loss. This guarantees reliable anomaly diagnostics and recovery, even when the primary satellite systems are offline, providing mission-critical assurance during unforeseen power failures.",
-  },
-  {
-    id: 6,
-    start: { x: 35.5, y: 60.5 },
-    joint: { x: 22, y: 91 },
-    side: "left",
-    label: "Security",
     description:
       "The Beacon is equipped with an independent battery, ensuring continued operation for up to one week in the event of satellite power loss. This guarantees reliable anomaly diagnostics and recovery, even when the primary satellite systems are offline, providing mission-critical assurance during unforeseen power failures.",
   },
@@ -71,6 +153,31 @@ const components = [
     id: 7,
     start: { x: 41, y: 57 },
     joint: { x: 23, y: 98 },
+    svgArray: [
+      { x: 39.1, y: 49.6 },
+      { x: 38.6, y: 48.5 },
+      { x: 38.3, y: 48.6 },
+      { x: 38.1, y: 49.6 },
+      { x: 38.1, y: 51 },
+      { x: 38.3, y: 53.1 },
+      { x: 38.7, y: 54.5 },
+      { x: 39.1, y: 55.5 },
+      { x: 39.4, y: 57.3 },
+      { x: 41.4, y: 62.5 },
+      { x: 41.6, y: 62.2 },
+      { x: 42, y: 63.7 },
+      { x: 42.3, y: 64.3 },
+      { x: 42.5, y: 64.1 },
+      { x: 42.6, y: 63 },
+      { x: 42.7, y: 61.6 },
+      { x: 42.6, y: 60.2 },
+      { x: 42.4, y: 58.8 },
+      { x: 41.9, y: 57.3 },
+      { x: 41.4, y: 55.9 },
+      { x: 41.3, y: 54.8 },
+      { x: 39.4, y: 49.6 },
+      { x: 39.2, y: 49.6 },
+    ],
     side: "left",
     label: "Integration",
     description:
@@ -80,28 +187,78 @@ const components = [
     id: 8,
     start: { x: 45, y: 67 },
     joint: { x: 29, y: 105 },
+    svgArray: [
+      { x: 43.2, y: 66.4 },
+      { x: 42.8, y: 62.1 },
+      { x: 43.1, y: 59.2 },
+      { x: 46.3, y: 67.8 },
+      { x: 46.6, y: 71.6 },
+      { x: 45.9, y: 73.6 },
+      { x: 43.2, y: 66.4 },
+    ],
     side: "left",
     label: "Communication",
-    description:
-      "The Beacon is equipped with an independent battery, ensuring continued operation for up to one week in the event of satellite power loss. This guarantees reliable anomaly diagnostics and recovery, even when the primary satellite systems are offline, providing mission-critical assurance during unforeseen power failures.",
-  },
-  {
-    id: 9,
-    start: { x: 46, y: 80 },
-    joint: { x: 33, y: 112 },
-    side: "left",
-    label: "Accessibility",
     description:
       "The Beacon is equipped with an independent battery, ensuring continued operation for up to one week in the event of satellite power loss. This guarantees reliable anomaly diagnostics and recovery, even when the primary satellite systems are offline, providing mission-critical assurance during unforeseen power failures.",
   },
 ];
 
 export function BeaconInternal() {
-  const [extendedLineRightId, setExtendedLineRightId] = useState(1);
-  const [extendedLineLeftId, setExtendedLineLeftId] = useState(5);
+  const [clickCoords, setClickCoords] = useState([]);
+  const [extendedLineId, setExtendedLineId] = useState(null);
+
+  const handleImageClick = (e) => {
+    const svg = e.currentTarget.parentElement.querySelector("svg");
+
+    const pt = svg.createSVGPoint();
+    pt.x = e.clientX;
+    pt.y = e.clientY;
+
+    const svgPoint = pt.matrixTransform(svg.getScreenCTM().inverse());
+
+    const rounded = {
+      x: Number(svgPoint.x.toFixed(1)),
+      y: Number(svgPoint.y.toFixed(1)),
+    };
+
+    console.log(rounded);
+
+    setClickCoords((prev) => [...prev, rounded]);
+  };
+
+  const downloadCoords = () => {
+    const textContent = clickCoords
+      .map((p) => `{ x: ${p.x}, y: ${p.y} }`)
+      .join("\n");
+
+    const blob = new Blob([textContent], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "click-coordinates.txt";
+    a.click();
+
+    URL.revokeObjectURL(url);
+  };
 
   const rightComponents = components.filter((c) => c.side === "right");
   const leftComponents = components.filter((c) => c.side === "left");
+
+  const getSVGCoordsFromImageClick = (e) => {
+    const svg = e.currentTarget.parentElement.querySelector("svg");
+
+    const pt = svg.createSVGPoint();
+    pt.x = e.clientX;
+    pt.y = e.clientY;
+
+    const svgPoint = pt.matrixTransform(svg.getScreenCTM().inverse());
+
+    console.log("SVG X:", svgPoint.x);
+    console.log("SVG Y:", svgPoint.y);
+
+    return { x: svgPoint.x, y: svgPoint.y };
+  };
 
   return (
     <div className="flex flex-col items-center py-[5vw] pb-[10vw] w-full">
@@ -115,15 +272,58 @@ export function BeaconInternal() {
           src={beaconOpen}
           alt="Beacon Internal"
           className="w-[35%] h-auto block"
+          onClick={(e) => handleImageClick(e)}
         />
 
         <svg
-          className="absolute inset-0 w-full h-full overflow-visible pointer-events-none"
+          className="absolute inset-0 w-full h-full overflow-visible"
           viewBox="0 0 100 100"
           preserveAspectRatio="none"
         >
+          {components.map((c) => {
+            const pointsString = c.svgArray
+              .map((p) => `${p.x},${p.y}`)
+              .join(" ");
+            if (c.svgArray2) {
+              const pointsString2 = c.svgArray2
+                .map((p) => `${p.x},${p.y}`)
+                .join(" ");
+              return (
+                <>
+                  <polygon
+                    key={c.id}
+                    points={pointsString}
+                    fill="#ffcc3356"
+                    stroke="#ffcc33"
+                    strokeWidth="0.3"
+                    onClick={() => setExtendedLineId((prev) => (prev === c.id ? null : c.id))}
+                  />
+                  <polygon
+                    key={c.id}
+                    points={pointsString2}
+                    fill="#ffcc3356"
+                    stroke="#ffcc33"
+                    strokeWidth="0.3"
+                    onClick={() => setExtendedLineId((prev) => (prev === c.id ? null : c.id))}
+                  />
+                </>
+              );
+            } else {
+              return (
+                <polygon
+                  key={c.id}
+                  points={pointsString}
+                  fill="#ffcc3356"
+                  stroke="#ffcc33"
+                  strokeWidth="0.3"
+                  onClick={() => setExtendedLineId((prev) => (prev === c.id ? null : c.id))}
+                />
+              );
+            }
+          })}
+
           {rightComponents.map((c) => {
-            const isActive = extendedLineRightId === c.id;
+            const isActive = extendedLineId === c.id;
             const fullLength = extendedRightEndx - c.joint.x; // always total length
             const collapsedOffset = extendedRightEndx - baseRightEndx;
             return (
@@ -163,7 +363,7 @@ export function BeaconInternal() {
             );
           })}
           {leftComponents.map((c) => {
-            const isActive = extendedLineLeftId === c.id;
+            const isActive = extendedLineId === c.id;
             const fullLength = c.joint.x - extendedLeftEndx; // total line length, always positive
             const collapsedOffset = c.joint.x - fullLength + baseLeftEndx * 3;
             return (
@@ -206,13 +406,13 @@ export function BeaconInternal() {
 
         {/* Labels */}
         {rightComponents.map((c) => {
-          const isActive = extendedLineRightId === c.id;
+          const isActive = extendedLineId === c.id;
           return (
             <div
               key={c.id}
               className="absolute text-sm whitespace-nowrap"
               style={{
-                left: `${isActive ? extendedRightEndx : baseRightEndx}%`,
+                left: `${isActive ? extendedRightEndx : c.joint.x}%`,
                 color: isActive ? "#ffcc33" : "#d6d6d6",
                 top: `${c.joint.y}%`,
                 transform: "translate(0%, -47%)", // align left with the line
@@ -223,7 +423,7 @@ export function BeaconInternal() {
                 cursor: "pointer",
               }}
               onClick={() =>
-                setExtendedLineRightId((prev) => (prev === c.id ? null : c.id))
+                setExtendedLineId((prev) => (prev === c.id ? null : c.id))
               }
             >
               {c.label}
@@ -263,7 +463,7 @@ export function BeaconInternal() {
           );
         })}
         {leftComponents.map((c) => {
-          const isActive = extendedLineLeftId === c.id;
+          const isActive = extendedLineId === c.id;
           return (
             <div
               key={c.id}
@@ -281,7 +481,7 @@ export function BeaconInternal() {
                 background: "#252634", // add background for readability
               }}
               onClick={() =>
-                setExtendedLineLeftId((prev) => (prev === c.id ? null : c.id))
+                setExtendedLineId((prev) => (prev === c.id ? null : c.id))
               }
             >
               {c.label}
