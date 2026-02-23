@@ -4,8 +4,8 @@ export function BeaconVariantsTable() {
   const rows = Object.keys(variants);
 
   return (
-    <div className="items-center justify-center py-12 px-[5vw]">
-      <table className="border-collapse">
+    <div className="items-center justify-center pb-[4vw] bg-[#2e2f41] px-[5vw]">
+      <table className="w-full table-fixed border-collapse">
         <thead>
           <tr>
             {rows.map((key) => (
@@ -139,7 +139,7 @@ export function BeaconVariantsTable() {
                     onClick={() => window.open(variants[key].buyURL)}
                     className="border border-white text-white w-[12vw] py-[1vh] hover:bg-[#ffcc33] hover:border-[#ffcc33] hover:text-[#252634] transition-colors"
                   >
-                    <p>BUY NOW</p>
+                    <p>{variants[key].preOrder ? "PRE-ORDER" : "BUY NOW"}</p>
                   </button>
                 </td>
               ))}

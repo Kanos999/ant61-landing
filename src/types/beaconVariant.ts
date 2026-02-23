@@ -7,4 +7,5 @@ export interface BeaconVariant {
   leadTime: string;
   dataSheetURL: string;
   buyURL: string;
+preOrder?: boolean;
 }
