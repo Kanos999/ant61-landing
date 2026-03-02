@@ -50,8 +50,8 @@ export const variants: BeaconVariant[] = [
 
 export const coreTeam: TeamMember[] = [
   {
-    name: "Mikh",
-    role: "CEO",
+    name: "Richard Peng",
+    role: "Software Engineer",
     imageURL: "/public/teamPFPs/blankProfile.jpg",
   },
   {

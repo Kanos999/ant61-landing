@@ -1,10 +1,24 @@
 import { Header } from "../components/Header";
-import {advisors, coreTeam} from "../lib/consts";
-
-
-
+import { advisors, coreTeam, historyCards } from "../lib/consts";
+import { HistoryCard } from "../components/HistoryCard";
+import { useScrollProgress } from "../hooks/useScrollProgress";
+import { motion, useScroll, useSpring } from "framer-motion";
+import { useRef } from "react";
 
 export function AboutPage() {
+  const containerRef = useRef(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end [5%]"],
+  });
+
+  // Smooth the motion
+  const scaleY = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+  });
+
   return (
     <div className="bg-[#252634] min-h-screen text-white">
       <Header />
@@ -52,6 +66,45 @@ export function AboutPage() {
       </div>
       <div className="flex flex-col items-center text-center justify-center py-[4vw] w-full px-[10vw] gap-12">
         <h2 className="text-[2vw] font-bold mb-6">Our History</h2>
+      </div>
+      <div className="relative w-full py-20" ref={containerRef}>
+        {/* Center vertical line */}
+        {/* Background line */}
+        <div className="absolute left-1/2 top-0 h-full w-1 -translate-x-1/2 bg-neutral-800" />
+
+        {/* Scroll progress line */}
+        <motion.div
+          style={{ scaleY }}
+          className="absolute left-1/2 top-0 h-full w-1 -translate-x-1/2 bg-yellow-400 origin-top"
+        />
+
+        <div className="flex flex-col gap-24">
+          {historyCards.map((card) => {
+            const isOdd = card.id % 2 === 1;
+
+            return (
+              <div
+                key={card.id}
+                className="relative grid grid-cols-[1fr_auto_1fr] items-center"
+              >
+                {/* LEFT COLUMN */}
+                <div className="flex justify-end pr-8">
+                  {!isOdd && <HistoryCard card={card} />}
+                </div>
+
+                {/* CENTER DOT */}
+                <div className="flex flex-basis-2 justify-center">
+                  <div className="z-10 h-8 w-8 rounded-full bg-yellow-400 border-4 border-[#252634]" />
+                </div>
+
+                {/* RIGHT COLUMN */}
+                <div className="flex justify-start pl-8">
+                  {isOdd && <HistoryCard card={card} />}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

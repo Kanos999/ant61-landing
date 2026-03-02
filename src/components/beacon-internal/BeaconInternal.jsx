@@ -296,7 +296,10 @@ export function BeaconInternal() {
                     fill="#ffcc3356"
                     stroke="#ffcc33"
                     strokeWidth="0.3"
-                    onClick={() => setExtendedLineId((prev) => (prev === c.id ? null : c.id))}
+                    onClick={() =>
+                      setExtendedLineId((prev) => (prev === c.id ? null : c.id))
+                    }
+                    cursor="pointer"
                   />
                   <polygon
                     key={c.id}
@@ -304,7 +307,10 @@ export function BeaconInternal() {
                     fill="#ffcc3356"
                     stroke="#ffcc33"
                     strokeWidth="0.3"
-                    onClick={() => setExtendedLineId((prev) => (prev === c.id ? null : c.id))}
+                    onClick={() =>
+                      setExtendedLineId((prev) => (prev === c.id ? null : c.id))
+                    }
+                    cursor="pointer"
                   />
                 </>
               );
@@ -316,7 +322,11 @@ export function BeaconInternal() {
                   fill="#ffcc3356"
                   stroke="#ffcc33"
                   strokeWidth="0.3"
-                  onClick={() => setExtendedLineId((prev) => (prev === c.id ? null : c.id))}
+                  onClick={() =>
+                    setExtendedLineId((prev) => (prev === c.id ? null : c.id))
+                  }
+                  cursor="pointer"
+                  
                 />
               );
             }
@@ -326,37 +336,29 @@ export function BeaconInternal() {
             const isActive = extendedLineId === c.id;
             const fullLength = extendedRightEndx - c.joint.x; // always total length
             const collapsedOffset = extendedRightEndx - baseRightEndx;
+            const pathD = `
+                M ${c.start.x} ${c.start.y}
+                L ${c.joint.x} ${c.joint.y}
+                L ${extendedRightEndx} ${c.joint.y}
+              `;
             return (
               <g key={c.id}>
                 {/* Diagonal start → joint */}
-                <line
-                  x1={c.start.x}
-                  y1={c.start.y}
-                  x2={c.joint.x}
-                  y2={c.joint.y}
+                <path
+                  d={pathD}
+                  fill="none"
                   stroke={isActive ? "#ffcc33" : "#d6d6d6"}
-                  strokeWidth="0.3"
-                  style={{
-                    transition: "stroke 0.2s cubic-bezier(.74,.01,.4,.96)",
-                    transitionDelay: isActive ? "0s" : "0.3s",
+                  strokeWidth="0.2"
+                  ref={(el) => {
+                    if (el) {
+                      const length = el.getTotalLength();
+                      el.style.strokeDasharray = length;
+                      el.style.strokeDashoffset = isActive ? 0 : length;
+                    }
                   }}
-                />
-
-                {/* Horizontal line with draw animation */}
-                <line
-                  x1={c.joint.x}
-                  y1={c.joint.y}
-                  x2={extendedRightEndx} // always final end
-                  y2={c.joint.y}
-                  stroke={isActive ? "#ffcc33" : "#d6d6d6"}
-                  strokeWidth="0.6"
-                  strokeDasharray={fullLength} // full length
-                  strokeDashoffset={isActive ? 0 : collapsedOffset} // hide the "extra" part
                   style={{
                     transition:
-                      "stroke-dashoffset 0.7s cubic-bezier(.74,.01,.4,.96), stroke 0.2s cubic-bezier(.74,.01,.4,.96)",
-
-                    transitionDelay: isActive ? "0s" : "0.3s",
+                      "stroke-dashoffset 0.8s cubic-bezier(.74,.01,.4,.96), stroke 0.2s",
                   }}
                 />
               </g>
@@ -366,38 +368,31 @@ export function BeaconInternal() {
             const isActive = extendedLineId === c.id;
             const fullLength = c.joint.x - extendedLeftEndx; // total line length, always positive
             const collapsedOffset = c.joint.x - fullLength + baseLeftEndx * 3;
+            const pathD = `
+                M ${c.start.x} ${c.start.y}
+                L ${c.joint.x} ${c.joint.y}
+                L ${extendedLeftEndx} ${c.joint.y}
+              `;
             return (
               <g key={c.id}>
                 {/* Diagonal start → joint */}
-                <line
-                  x1={c.start.x}
-                  y1={c.start.y}
-                  x2={c.joint.x}
-                  y2={c.joint.y}
+                <path
+                  d={pathD}
+                  fill="none"
                   stroke={isActive ? "#ffcc33" : "#d6d6d6"}
-                  strokeWidth="0.3"
-                  style={{
-                    transition: "stroke 0.2s cubic-bezier(.74,.01,.4,.96)",
-                    transitionDelay: isActive ? "0s" : "0.3s",
+                  strokeWidth="0.2"
+                  ref={(el) => {
+                    if (el) {
+                      const length = el.getTotalLength();
+                      el.style.strokeDasharray = length;
+                      el.style.strokeDashoffset = isActive ? 0 : length;
+                    }
                   }}
-                />
-
-                {/* Horizontal line with draw animation */}
-                <line
-                  x1={c.joint.x}
-                  y1={c.joint.y}
-                  x2={extendedLeftEndx} // always final end
-                  y2={c.joint.y}
-                  stroke={isActive ? "#ffcc33" : "#d6d6d6"}
-                  strokeWidth="0.6"
-                  strokeDasharray={fullLength} // full length
-                  strokeDashoffset={isActive ? 0 : collapsedOffset} // hide the "extra" part
                   style={{
                     transition:
-                      "stroke-dashoffset 0.7s cubic-bezier(.74,.01,.4,.96), stroke 0.2s cubic-bezier(.74,.01,.4,.96)",
-
-                    transitionDelay: isActive ? "0s" : "0.3s",
+                      "stroke-dashoffset 0.8s cubic-bezier(.74,.01,.4,.96), stroke 0.2s",
                   }}
+                  shapeRendering="geometricPrecision"
                 />
               </g>
             );
@@ -414,16 +409,18 @@ export function BeaconInternal() {
               style={{
                 left: `${isActive ? extendedRightEndx : c.joint.x}%`,
                 color: isActive ? "#ffcc33" : "#d6d6d6",
+                opacity: `${isActive ? 1:0}`,
                 top: `${c.joint.y}%`,
                 transform: "translate(0%, -47%)", // align left with the line
                 transition: isActive
-                  ? "left 0.7s cubic-bezier(.74,.01,.4,.96), color 0.2s cubic-bezier(.74,.01,.4,.96)" // fade-in delayed
-                  : "left 0.7s cubic-bezier(.74,.01,.4,.96), color 0.2s cubic-bezier(.74,.01,.4,.96)", // fade-out delayed
-                transitionDelay: isActive ? "0s" : "0.3s",
-                cursor: "pointer",
+                  ? "left 0.7s cubic-bezier(.74,.01,.4,.96), color 0.2s cubic-bezier(.74,.01,.4,.96), opacity 0.3s ease-in" // fade-in delayed
+                  : "left 0.5s cubic-bezier(.74,.01,.4,.96), color 0.2s cubic-bezier(.74,.01,.4,.96), opacity 0.3s ease-in", // fade-out delayed
+                transitionDelay: isActive ? "0.15s" : "0s",
+                cursor: isActive ? "pointer" : "default",
+                
               }}
               onClick={() =>
-                setExtendedLineId((prev) => (prev === c.id ? null : c.id))
+                isActive && setExtendedLineId((prev) => (prev === c.id ? null : c.id))
               }
             >
               {c.label}
@@ -447,11 +444,12 @@ export function BeaconInternal() {
                     ? "opacity 0.7s ease-out 0.4s, transform 0.7s ease-out 0.4s" // fade-in delayed
                     : "opacity 0.2s ease-out, transform 0.5s ease-out", // fade-out immediate
 
-                  transitionDelay: isActive ? "0.8s" : "0s",
+                  transitionDelay: isActive ? "0.55s" : "0s",
                   width: "20vw", // set fixed width
                   wordWrap: "break-word", // allow wrapping
                   whiteSpace: "normal", // normal wrapping behavior
                   cursor: isActive ? "pointer" : "default", // only show pointer when not active
+                  pointerEvents: isActive ? "auto" : "none",
                 }}
                 onClick={(e) => {
                   !isActive && e.stopPropagation();
@@ -471,17 +469,19 @@ export function BeaconInternal() {
               style={{
                 left: `${isActive ? extendedLeftEndx : baseLeftEndx}%`,
                 color: isActive ? "#ffcc33" : "#d6d6d6",
+                background: "#252634",
+                opacity: `${isActive ? 1:0}`,
                 top: `${c.joint.y}%`,
                 transform: "translate(0%, -47%)", // align left with the line
                 transition: isActive
-                  ? "left 0.7s cubic-bezier(.74,.01,.4,.96), color 0.2s cubic-bezier(.74,.01,.4,.96)" // fade-in delayed
-                  : "left 0.7s cubic-bezier(.74,.01,.4,.96), color 0.2s cubic-bezier(.74,.01,.4,.96)", // fade-out delayed
-                transitionDelay: isActive ? "0s" : "0.3s",
-                cursor: "pointer",
-                background: "#252634", // add background for readability
+                  ? "left 0.5s cubic-bezier(.74,.01,.4,.96), color 0.2s cubic-bezier(.74,.01,.4,.96), opacity 0.3s ease-in" // fade-in delayed
+                  : "left 0.5s cubic-bezier(.74,.01,.4,.96), color 0.2s cubic-bezier(.74,.01,.4,.96), opacity 0.3s ease-in", // fade-out delayed
+                transitionDelay: isActive ? "0.2s" : "0.09s",
+                cursor: isActive ? "pointer" : "default",
+                
               }}
               onClick={() =>
-                setExtendedLineId((prev) => (prev === c.id ? null : c.id))
+                isActive && setExtendedLineId((prev) => (prev === c.id ? null : c.id))
               }
             >
               {c.label}
@@ -505,11 +505,13 @@ export function BeaconInternal() {
                     ? "opacity 0.7s ease-out 0.4s, transform 0.7s ease-out 0.4s" // fade-in delayed
                     : "opacity 0.2s ease-out, transform 0.5s ease-out", // fade-out immediate
 
-                  transitionDelay: isActive ? "0.8s" : "0s",
+                  transitionDelay: isActive ? "0.4s" : "0s",
                   width: "20vw", // set fixed width
                   wordWrap: "break-word", // allow wrapping
                   whiteSpace: "normal", // normal wrapping behavior
+                  pointerEvents: isActive ? "auto" : "none",
                   cursor: isActive ? "pointer" : "default", // only show pointer when not active
+                  zIndex: 0
                 }}
                 onClick={(e) => {
                   !isActive && e.stopPropagation();
